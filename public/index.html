@@ -8,9 +8,29 @@
   <body>
     <h2>Welcome to Chat App</h2>
 
+    <input type="text" id="message" placeholder="Enter Message" />
+    <button id="sendBtn">Send</button>
+
+    <div id="messages"></div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
+      const sentBtn = document.getElementById("sendBtn");
+      const messageInput = document.getElementById("message");
+      const allMessages = document.getElementById("messages");
+
+      socket.on("message", (message) => {
+        const p = document.createElement('p');
+        p.innerText = message;
+        allMessages.appendChild(p);
+      });
+
+      sentBtn.addEventListener("click", (e) => {
+        const message = messageInput.value;
+
+        socket.emit("user-message", message);
+      });
     </script>
   </body>
 </html>

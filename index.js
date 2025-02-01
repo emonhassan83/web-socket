@@ -7,8 +7,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+//* Socket Connection
 io.on("connection", (socket) => {
-    console.log("New user has connected", socket.id);
+    socket.on("user-message", (message) =>{
+        io.emit("message", message);
+    })
 })
 
 const port = 9000;
